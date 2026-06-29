@@ -1,0 +1,37 @@
+seed: 42
+sigma: 1.0
+alpha: -0.3345784927
+beta_anchor_f: 0.5
+beta_anchor_value: 0.45
+
+module_a:
+  n: 50000
+  cache: cohort_50k_b1.npz
+
+module_b:
+  cache_b1: cohort_50k_b1.npz
+  cache_b3: cohort_50k_b3.npz
+
+module_c:
+  variants: [G7, G17]
+
+classifier:
+  max_depth: 3
+  n_estimators: 500
+  learning_rate: 0.1
+  subsample: 0.8
+  colsample_bytree: 1.0
+  early_stopping_rounds: 50
+  eval_metric: logloss
+
+cv:
+  n_folds: 8
+  train_folds: 5
+  val_folds: 2
+  min_pos_total: 16
+  min_pos_per_fold: 2
+
+paths:
+  figures: figures
+  results: results
+  cache: results/cache

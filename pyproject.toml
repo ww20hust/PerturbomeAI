@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "perturbomeai"
+version = "0.1.0"
+description = "PerturbomeAI: decoding locus-specific genetic perturbations from routine clinical phenotypes."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "PerturbomeAI authors" }]
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=1.5",
+    "scipy>=1.9",
+    "scikit-learn>=1.1",
+    "xgboost>=1.7",
+    "torch>=1.13",
+    "matplotlib>=3.6",
+    "pyarrow>=10.0",
+    "pyyaml>=6.0",
+]
+
+[tool.setuptools]
+packages = ["perturbomeai"]
+
+[tool.setuptools.package-dir]
+perturbomeai = "perturbomeai"

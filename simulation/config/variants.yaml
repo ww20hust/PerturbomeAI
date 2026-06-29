@@ -1,0 +1,30 @@
+# 20 variants: 16 rare (f < 0.05, log-spaced) + 4 common (f in [0.05, 0.5], log-spaced)
+# beta_i = c * [f_i*(1-f_i)]^alpha, anchor f=0.5 -> beta=0.45
+# G1/G20 beta ratio ~ 8x; G1 f=0.0005 -> E[n_pos]=25 at N=50k (>= 16)
+
+alpha: -0.3345784927
+c: 0.2829933233
+f_med: 0.008107
+beta_med: 1.421050
+
+variants:
+  - {id: G1,  f: 0.0005,    beta: 3.60}
+  - {id: G2,  f: 0.000670,  beta: 3.26}
+  - {id: G3,  f: 0.000897,  beta: 2.96}
+  - {id: G4,  f: 0.001201,  beta: 2.69}
+  - {id: G5,  f: 0.001609,  beta: 2.44}
+  - {id: G6,  f: 0.002154,  beta: 2.21}
+  - {id: G7,  f: 0.002885,  beta: 2.00}
+  - {id: G8,  f: 0.003864,  beta: 1.82}
+  - {id: G9,  f: 0.005175,  beta: 1.65}
+  - {id: G10, f: 0.006931,  beta: 1.50}
+  - {id: G11, f: 0.009283,  beta: 1.36}
+  - {id: G12, f: 0.012433,  beta: 1.23}
+  - {id: G13, f: 0.016651,  beta: 1.12}
+  - {id: G14, f: 0.022301,  beta: 1.02}
+  - {id: G15, f: 0.029867,  beta: 0.93}
+  - {id: G16, f: 0.04,      beta: 0.84}
+  - {id: G17, f: 0.05,      beta: 0.78}
+  - {id: G18, f: 0.107722,  beta: 0.62}
+  - {id: G19, f: 0.232079,  beta: 0.50}
+  - {id: G20, f: 0.50,      beta: 0.45}

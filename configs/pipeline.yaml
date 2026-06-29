@@ -1,0 +1,81 @@
+# PerturbomeAI main pipeline configuration.
+#
+# The pipeline runs on either:
+#   (a) synthetic demo data generated in-memory (data.mode: synthetic), or
+#   (b) real biobank tables on disk (data.mode: files), with paths set below.
+#
+# For real runs, set your data locations under data.files; the code reads paths
+# only from this file.
+
+seed: 42
+
+data:
+  # "synthetic" -> generate a demo biobank with perturbomeai.simdata (runs without UKB).
+  # "files"     -> read the paths under data.files below.
+  mode: synthetic
+
+  synthetic:
+    n_samples: 8000
+    n_loci: 6           # number of demo loci to model
+    n_proteins: 200
+    latent_dim: 8
+    missing_rate: 0.15  # fraction of feature cells set missing (MCAR)
+    protein_target_locus: 0  # locus whose perturbation drives the synthetic proteome
+
+  files:
+    # Feature table: rows = individuals, must contain `pid` and the INPUT_FEATURES columns.
+    feature_table: /path/to/percentile_transformed_features.csv
+    # Per-locus label table: `pid` + one binary column per locus (0 non-carrier, 1 carrier).
+    label_table: /path/to/locus_labels.parquet
+    # Optional proteomics table: `pid`, `age`, optional `gender`, and protein_* columns.
+    proteomics_table: /path/to/proteomics.parquet
+    # Loci (label columns) to model. Empty -> use every non-id column of label_table.
+    loci: []
+
+preprocess:
+  age_col: age
+  age_divisor: 100.0
+  # Columns excluded from per-column quantile transform (kept as-is / age-scaled).
+  qt_exclude: [age]
+
+impute:
+  enabled: true
+  latent_dim: 32
+  hidden_dims: [256, 128]
+  beta: 0.5
+  kl_warmup_epochs: 5
+  epochs: 30
+  batch_size: 2048
+  lr: 0.002
+  weight_decay: 0.00001
+  train_mask_min: 0.0
+  train_mask_max: 0.7
+  device: auto   # auto | cpu | cuda
+
+scorer:
+  n_folds: 8
+  reference_fold: 0
+  device: auto   # auto | cpu | cuda
+  xgb:
+    n_estimators: 300
+    max_depth: 4
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 3
+    gamma: 0.1
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    early_stopping_rounds: 30
+
+proteomics:
+  score_q_low: 0.20
+  score_q_high: 0.80
+  fdr_threshold: 0.05
+  min_group_size: 10
+  label_top_n: 20
+
+ablation:
+  top_k: 4
+
+output_dir: examples/demo_output
